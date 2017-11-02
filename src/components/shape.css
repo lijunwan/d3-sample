@@ -1,0 +1,121 @@
+.trans {
+    opacity: 1;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 2s;
+    -webkit-transition-timing-function: ease;
+  }
+  .trans1 {
+    opacity: 1;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 0.5s;
+    -webkit-transition-timing-function: ease;
+  }
+  .show {
+    opacity: 1;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 2s;
+    -webkit-transition-timing-function: ease;
+  }
+  .hide {
+    opacity: 0;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 2s;
+    -webkit-transition-timing-function: ease;
+  }
+  .hideLinksText {
+    opacity: 0;
+  }
+  .links {
+    stroke: #AECFDA;
+    stroke-width: 1.5px;
+    fill: none;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 2s;
+    -webkit-transition-timing-function: ease;
+  }
+  .dashLinks{
+    stroke-dasharray: 10,10;
+    stroke: #AECFDA;
+    stroke-width: 1.5px;
+    fill: none;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 2s;
+    -webkit-transition-timing-function: ease;
+  }
+  .linkLabel {
+    fill: #424242;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 2s;
+    -webkit-transition-timing-function: ease;
+    font-size: 8px;
+  }
+  .nodeText {
+    fill: #44869c;
+    cursor: pointer;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 2s;
+    -webkit-transition-timing-function: ease;
+    font-size: 12px;
+  }
+  .hideText {
+    fill: white;
+    opacity: 0;
+    cursor: pointer;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 2s;
+    -webkit-transition-timing-function: ease;
+    display: none;
+  }
+  .arrow {
+    fill: #0D6381;
+  }
+  .nodesTrans {
+    cursor: pointer;
+    transition: fill 1s ease;
+  }
+  .cancelNodes {
+    cursor: pointer;
+    stroke-width: 1.5px;
+    stroke: #000000;
+    fill: #424242;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 2s;
+    -webkit-transition-timing-function: ease;
+  }
+  .mainCompany {
+    cursor: pointer;
+    stroke-width: 1.5px;
+    stroke: #E1322D;
+    fill: #e96864;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 2s;
+    -webkit-transition-timing-function: ease;
+  }
+  .relativeCompany {
+    cursor: pointer;
+    stroke-width: 1.5px;
+    stroke: #0D6381;
+    fill: #398BA7;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 2s;
+    -webkit-transition-timing-function: ease;
+  }
+  .shape-relativePerson {
+    cursor: pointer;
+    stroke-width: 1.5px;
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 2s;
+    -webkit-transition-timing-function: ease;
+  }
+  .noActive {
+    fill: #CFD0D4;
+    cursor: pointer;
+    transition: fill 1s ease;
+  }
+  .lineNoActive {
+    stroke: #EEEFF3;
+  }
+  .user {
+    font-size: 14px;
+    color: #7FBBA1;
+  }

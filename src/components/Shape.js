@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 import DATA from '../data/network';
-import './network.css';
+import './shape.css';
 import * as svgTools from '../helper';
+import user from '../img/user.jpg';
 class Network extends Component {
     constructor(props) {
         super(props);
@@ -74,6 +75,58 @@ class Network extends Component {
         .on('tick', this.ticked);
 
     }
+    // 依据数据append不同形状
+    // nodeTempHandle() {
+    //     console.log('????');
+    //     var nodeGUpdate = this.nodeG
+    //                     .selectAll('g')
+    //                     .data(this.nodesData, (data) => data.id);
+    //     var nodeGEnter = nodeGUpdate.enter();
+    //     var nodeGExit = nodeGUpdate.exit();
+    //     // 更新
+    //     nodeGUpdate
+    //     .transition()
+    //     .attr('class', (data) => {
+    //         return (data.hide && 'hide') || (data.nodeStatus < 0 && 'noActive') || (data.cateType === 0 && 'mainCompany') || (data.cateType === 1 && 'relativeCompany') || (data.cateType === 2 && 'relativePerson');
+    //     })
+    //     nodeGEnter.append('g')
+    //     .attr('class', (data)=> {
+    //         return data.cateType === 2 ? 'person' : 'company';
+    //     })
+    //     // 添加矩形
+    //     this.nodeG
+    //     .selectAll('.person')
+    //     .append('rect')
+    //     .attr('class', (data) => {
+    //       return (data.hide && '.hide') || (data.cateType === 0 && 'mainCompany') || (data.cateType === 1 && 'relativeCompany') || (data.cateType === 2 && 'relativePerson');
+    //     })
+    //     .attr('width', 20)
+    //     .attr('height', 20)
+    //     .call(d3.drag()
+    //       .on('start', this.dragstarted)
+    //       .on('drag', this.dragged)
+    //       .on('end', this.dragended))
+    //     .append('title')
+    //     .text((data) => { return data.name; });
+
+    //     // 添加圆形
+    //     this.nodeG
+    //     .selectAll('.company')
+    //     .append('circle')
+    //     .attr('class', (data) => {
+    //       return (data.hide && '.hide') || (data.cateType === 0 && 'mainCompany') || (data.cateType === 1 && 'relativeCompany') || (data.cateType === 2 && 'relativePerson');
+    //     })
+    //     .attr('r', 20)
+    //     .call(d3.drag()
+    //       .on('start', this.dragstarted)
+    //       .on('drag', this.dragged)
+    //       .on('end', this.dragended))
+    //     .append('title')
+    //     .text((data) => { return data.name; });
+        
+    //     // 删除
+    //     nodeGExit.remove();
+    // }
     // 节点处理模板，添加、删除、更新
     nodeTempHandle() {
         var nodeUpdate = this.nodeG
@@ -85,31 +138,30 @@ class Network extends Component {
         nodeUpdate
         .transition()
         .attr('class', (data) => {
-            return (data.hide && 'hide') || (data.nodeStatus < 0 && 'noActive') || (data.cateType === 0 && 'mainCompany') || (data.cateType === 1 && 'relativeCompany') || (data.cateType === 2 && 'relativePerson');
+            return (data.hide && 'hide') || (data.nodeStatus < 0 && 'noActive') || (data.cateType === 0 && 'mainCompany') || (data.cateType === 1 && 'relativeCompany') || (data.cateType === 2 && 'shape-relativePerson');
         })
-        .attr('r', (data) => {
-            if (data.nodeStatus === -2) {
-              return 5;
-            }
-            return data.cateType < 2 ? 20 : 10;
+        .attr('fill', (data)=>{
+            console.log('---');
+            return data.cateType === 2 ? 'url(#person)' : '';
         });
         // 添加
         nodeEnter
         .append('circle')
         .attr('class', (data) => {
-          return (data.hide && '.hide') || (data.cateType === 0 && 'mainCompany') || (data.cateType === 1 && 'relativeCompany') || (data.cateType === 2 && 'relativePerson');
+          return (data.hide && '.hide') || (data.cateType === 0 && 'mainCompany') || (data.cateType === 1 && 'relativeCompany') || (data.cateType === 2 && 'shape-relativePerson');
         })
-        .attr('r', (data) => data.cateType < 2 ? 20 : 10)
+        .attr('r', 20)
+        .attr('fill', (data)=>{
+            return data.cateType === 2 ? 'url(#person)' : '';
+        })
         .call(d3.drag()
           .on('start', this.dragstarted)
           .on('drag', this.dragged)
-          .on('end', this.dragended))
-        .append('title')
-        .text((data) => { return data.name; });
+          .on('end', this.dragended));
         // 删除
         nodeExit.remove();
     }
-    // 节点上的字
+    节点上的字
     textTempHandle() {
         var textUpdate = this.textsG
                         .selectAll('text')
@@ -324,7 +376,17 @@ class Network extends Component {
     render() {
         return (
             <div>
-                <svg width="1000" height="1000"></svg>
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                <svg width="1000" height="1000">
+                    <defs>
+                        {/* <pattern id="person" patternUnits="objectBoundingBox" width="1" height="1">
+                            <rect x="10" y="10" width="20" height="20" fill="#7FBBA1" stroke="#5CA083"/>
+                        </pattern> */}
+                         <pattern id="person" patternUnits="objectBoundingBox" width="1" height="1">
+                            <image href={user} width="20" height="20" x="10" y="10"/>
+                        </pattern>
+                    </defs>
+                </svg>
             </div>
         )
     }
