@@ -1,5 +1,5 @@
 const data = {
-    "companyName": "木叶村",
+    "companyName": "中国",
     "currentNetwork": {
         "links": [
             {
@@ -309,7 +309,7 @@ const data = {
                 "esDate": "2016-04-28",
                 "id": "5D9531A3727C810643287BECAB05EC2A",
                 "layer": 0,
-                "name": "木叶村",
+                "name": "花花",
                 "oneLevelLinkedNodes": [
                     "B7DAD6AD01E9E7AE1CAD6D0501466951",
                     "5CCCAB95478955A2FA686B9FB48F46DF",
@@ -326,7 +326,7 @@ const data = {
                 "cateType": 2,
                 "id": "5CCCAB95478955A2FA686B9FB48F46DF",
                 "layer": 1,
-                "name": "猿飞",
+                "name": "草草",
                 "oneLevelLinkedNodes": [
                     "8AF53773C524A95D539148E1E07F9213",
                     "5D9531A3727C810643287BECAB05EC2A"
@@ -337,7 +337,7 @@ const data = {
                 "degree": 7,
                 "id": "8AF53773C524A95D539148E1E07F9213",
                 "layer": 2,
-                "name": "钢手",
+                "name": "大叔",
                 "oneLevelLinkedNodes": [
                     "9D30C179255811E5D4B2893475ADFD68",
                     "5CCCAB95478955A2FA686B9FB48F46DF"
@@ -351,7 +351,7 @@ const data = {
                 "degree": 8,
                 "id": "B7DAD6AD01E9E7AE1CAD6D0501466951",
                 "layer": 1,
-                "name": "自来也",
+                "name": "猴子",
                 "oneLevelLinkedNodes": [
                     "5D9531A3727C810643287BECAB05EC2A",
                     "43B059C3B919370A4E152DBD8B24B312",
@@ -361,23 +361,15 @@ const data = {
             },
             {
                 "cateType": 1,
-                "degree": 5,
-                "esDate": "2014-06-17",
                 "id": "43B059C3B919370A4E152DBD8B24B312",
-                "layer": 2,
-                "name": "大蛇丸",
-                "oneLevelLinkedNodes": [
-                    "B7DAD6AD01E9E7AE1CAD6D0501466951"
-                ],
-                "regCap": 800,
-                "regCapCur": "",
+                "name": "猪",
                 "status": 1
             },
             {
                 "cateType": 1,
                 "id": "2238577F7B13DAB3471CB9CD03D6DEB7",
                 "layer": 2,
-                "name": "漩涡鸣人",
+                "name": "鸭",
                 "oneLevelLinkedNodes": [
                     "B7DAD6AD01E9E7AE1CAD6D0501466951"
                 ],
@@ -386,7 +378,7 @@ const data = {
                 "cateType": 2,
                 "id": "07EAEEECE07081EA3AB1069BDACC9E08",
                 "layer": 1,
-                "name": "宇智波佐助",
+                "name": "鱼",
                 "oneLevelLinkedNodes": [
                     "5D9531A3727C810643287BECAB05EC2A"
                 ],

@@ -1,3 +1,12 @@
+.network a{
+  color: #0D6381;
+  margin-right: 5px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.actLink {
+  font-weight: bold;
+}
 .trans {
     opacity: 1;
     -webkit-transition-property: opacity;
@@ -18,9 +27,6 @@
   }
   .hide {
     opacity: 0;
-    -webkit-transition-property: opacity;
-    -webkit-transition-duration: 2s;
-    -webkit-transition-timing-function: ease;
   }
   .hideLinksText {
     opacity: 0;
@@ -29,9 +35,13 @@
     stroke: #AECFDA;
     stroke-width: 1.5px;
     fill: none;
+    opacity: 1;
     -webkit-transition-property: opacity;
     -webkit-transition-duration: 2s;
     -webkit-transition-timing-function: ease;
+  }
+  .greyLinks {
+    stroke: #AECFDA;
   }
   .dashLinks{
     stroke-dasharray: 10,10;
@@ -96,6 +106,7 @@
     stroke-width: 1.5px;
     stroke: #0D6381;
     fill: #398BA7;
+    opacity: 1;
     -webkit-transition-property: opacity;
     -webkit-transition-duration: 2s;
     -webkit-transition-timing-function: ease;
@@ -105,6 +116,7 @@
     stroke-width: 1.5px;
     stroke: #5CA083;
     fill: #7FBBA1;
+    opacity: 1;
     -webkit-transition-property: opacity;
     -webkit-transition-duration: 2s;
     -webkit-transition-timing-function: ease;
@@ -116,4 +128,9 @@
   }
   .lineNoActive {
     stroke: #EEEFF3;
+  }
+  .hideNode {
+    opacity: 0;
+    stroke: #0D6381;
+    fill: #398BA7;
   }

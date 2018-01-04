@@ -1,0 +1,36 @@
+.node {
+  transition: opacity 0.4s;
+}
+.node-hide{
+  opacity: 0;
+}
+.node-show {
+  opacity: 1;
+}
+.node circle {
+  transition: opacity 0.4s;
+  fill: #999;
+}
+.node text {
+  transition: opacity 0.4s;
+  font: 10px sans-serif;
+}
+.node-internal circle {
+  fill: #555;
+}
+.node-internal text {
+  text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff;
+}
+.link-hide {
+opacity: 0;
+}
+.link-show {
+opacity: 1;
+}
+.link {
+fill: none;
+stroke: #555;
+stroke-opacity: 0.4;
+stroke-width: 1.5px;
+transition: opacity 0.4s;
+}

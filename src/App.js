@@ -3,11 +3,12 @@ import RoutesApp from './routes';
 
 class App extends Component {
   render() {
-    console.log('---', this);
     return (
       <div>
-        <li><a href="/network">网络图-聚焦</a></li>
-        <li><a href="/shape">绘制方形节点</a></li>
+        <li><a href="/baseNetwork">网络图-收起展开</a></li>
+        <li><a href="/shape">网络图-聚焦</a></li>
+        <li><a href="/linkNetwork">网络图-链条图</a></li>
+        <li><a href="/cluster">树型结构图</a></li>
         <RoutesApp />
       </div>
     );
