@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import RoutesApp from './routes';
+import { BrowserRouter as Router} from 'react-router-dom';
+import Routes from './routes';
 
 class App extends Component {
   render() {
@@ -9,7 +10,7 @@ class App extends Component {
         <li><a href="/shape">网络图-聚焦</a></li>
         <li><a href="/linkNetwork">网络图-链条图</a></li>
         <li><a href="/cluster">树型结构图</a></li>
-        <RoutesApp />
+        <Routes />
       </div>
     );
   }

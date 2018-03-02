@@ -4,7 +4,6 @@ import DATA from '../data/network';
 import './network.css';
 import * as svgTools from '../helper';
 import axios from 'axios';
-import currencyFormat from 'lch-currency-format';
 import { style } from 'd3-selection';
 class Network extends Component {
     constructor(props) {

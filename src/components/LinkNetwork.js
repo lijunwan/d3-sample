@@ -3,7 +3,6 @@ import * as d3 from 'd3';
 import './network.css';
 import * as svgTools from '../helper';
 import axios from 'axios';
-import currencyFormat from 'lch-currency-format';
 import { style } from 'd3-selection';
 import DATA from '../data/linkData';
 class LinkNetwork extends Component {
