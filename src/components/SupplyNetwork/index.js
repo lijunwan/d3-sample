@@ -165,11 +165,11 @@ export default class SupplyNetwork extends Component {
         return `M${source.x}, ${source.y}
                 L${pointC.resX}, ${pointC.resY}
                 L${pointB.resX}, ${pointB.resY}
-                L${pointA.resX}, ${pointA.resY}
-                L${pointD.resX}, ${pointD.resY}
-                L${pointC.resX}, ${pointC.resY}
-                M${pointA.resX}, ${pointA.resY}
-                L${target.x}, ${target.y}`
+                L${pointA.resX}, ${pointA.resY}`
+                // L${pointD.resX}, ${pointD.resY}
+                // L${pointC.resX}, ${pointC.resY}
+                // M${pointA.resX}, ${pointA.resY}
+                // L${target.x}, ${target.y}`
     }
     // 线条模板
     lineTempHandle() {
@@ -466,11 +466,11 @@ export default class SupplyNetwork extends Component {
     getPath() {
         
         const xO = 450;
-        const yO = 500;
+        const yO = 450;
 
 
-        const xF = 600;
-        const yF = 500;
+        const xF = 550;
+        const yF = 550;
         const d = this.getPathD({
             source: {
                 x:xO,
@@ -478,7 +478,7 @@ export default class SupplyNetwork extends Component {
             },
             target: {
                 x:xF,
-                y:xF
+                y:yF
             }
         })
         return d;

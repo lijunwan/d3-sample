@@ -37,7 +37,7 @@ export function getPointAXY(xS, yS, xT, yT, r) {
   const yA = lineK * xA + lineB;
   return { xA, yA} 
 }
-export function getPointXYonLine(lineK, lineB, pointX, pointY, len, flag) {
+export function getPointXYonLine(lineK, lineB, pointX, pointY, len, type) {
   // 求直线上的一点
   // 根据直角三角形的边长定理　(x-x1)^2+(y-y1)^2 = len^2　以及　直线的函数 y = kx+b
   // 联合两个方程消除y,最终得到一个一元二次方程
@@ -51,14 +51,12 @@ export function getPointXYonLine(lineK, lineB, pointX, pointY, len, flag) {
   // 最后根据resX求出resY
   const resY1 = lineK * resX1 + lineB;
   const resY2 = lineK * resX2 + lineB;
-  if (flag) {
-    console.log(constantB * constantB - 4 * constantA * constantC)
-  }
+  console.log('===', type, lineK,  constantB, constantA, constantC)
   return { resX1, resY1, resX2, resY2};
 }
 // 多个结果去点S和点之间的点
 export function getLineInnerPoint(lineK, lineB, pointX, pointY, len , maxX, minX, type) {
-  const point = getPointXYonLine(lineK, lineB, pointX, pointY, len);
+  const point = getPointXYonLine(lineK, lineB, pointX, pointY, len, type);
   if (point.resX1 < maxX && point.resX1 > minX) {
     return {resX: point.resX1, resY: point.resY1};
   }
@@ -72,7 +70,7 @@ export function getArrowPoint(xS, yS, xT, yT, r) {
   // 箭头角度的一半
   const angle = Math.PI / 3;
   // 箭头的腰长
-  const len = 30;
+  const len = 15;
   // 箭头的高
   const lenH = Math.abs(Math.cos(angle) * len);
 
@@ -84,6 +82,7 @@ export function getArrowPoint(xS, yS, xT, yT, r) {
   // 垂直直线(箭头的底边所在的直线)斜率lineK,常数lineB
   const lineVK = -1/lineK;
   const lineVB = pointC.resY - lineVK * pointC.resX;
+  console.log(lineVK,lineK, '===???');
   const pointBandD = getPointXYonLine(lineVK, lineVB, pointC.resX, pointC.resY, len/2, true);
   const pointB = {resX: pointBandD.resX1, resY:  pointBandD.resY1};
   const pointD = {resX: pointBandD.resX2, resY:  pointBandD.resY2};
