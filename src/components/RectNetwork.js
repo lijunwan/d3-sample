@@ -5,7 +5,7 @@ import './shape.css';
 import * as svgTools from '../helper';
 import user from '../img/user.jpg';
 import { Prompt } from 'react-router';
-class Network extends Component {
+class RectNetwork extends Component {
     constructor(props) {
         super(props);
         this.svg = null;
@@ -78,7 +78,7 @@ class Network extends Component {
     }
     nodeTempHandle() {
         var nodeUpdate = this.nodeG
-                        .selectAll('circle')
+                        .selectAll('rect')
                         .data(this.nodesData, (data) => data.id);
         var nodeEnter = nodeUpdate.enter();
         var nodeExit = nodeUpdate.exit();
@@ -96,11 +96,13 @@ class Network extends Component {
         });
         // 添加
         nodeEnter
-        .append('circle')
+        .append('rect')
         .attr('class', (data) => {
           return (data.hide && '.hide') || (data.cateType === 0 && 'mainCompany') || (data.cateType === 1 && 'relativeCompany') || (data.cateType === 2 && 'relativePerson');
         })
-        .attr('r', 20)
+        .attr('stroke', d3.rgb('#7FBBA1').darker(0.5))
+        .attr('width', 20)
+        .attr('height', 20)
         .call(d3.drag()
           .on('start', this.dragstarted)
           .on('drag', this.dragged)
@@ -214,9 +216,9 @@ class Network extends Component {
         this.lineTempHandle(); 
     }
     ticked() {
-        d3.selectAll('circle')
-        .attr('cx', (data) => { return data.x; })
-        .attr('cy', (data) => { return data.y; });
+        d3.selectAll('rect')
+        .attr('x', (data) => { return data.x - 10; })
+        .attr('y', (data) => { return data.y - 10; });
         
         d3.selectAll('line')
         .attr('x1', (data) => { return data.source.x; })
@@ -338,4 +340,4 @@ class Network extends Component {
         )
     }
 }
-export default Network;
+export default RectNetwork;

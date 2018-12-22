@@ -325,7 +325,7 @@ const data = {
             {
                 "cateType": 2,
                 "id": "5CCCAB95478955A2FA686B9FB48F46DF",
-                "layer": 1,
+                "layer": -1,
                 "name": "草草",
                 "oneLevelLinkedNodes": [
                     "8AF53773C524A95D539148E1E07F9213",
@@ -336,7 +336,7 @@ const data = {
                 "cateType": 1,
                 "degree": 7,
                 "id": "8AF53773C524A95D539148E1E07F9213",
-                "layer": 2,
+                "layer": -3,
                 "name": "大叔",
                 "oneLevelLinkedNodes": [
                     "9D30C179255811E5D4B2893475ADFD68",
@@ -361,6 +361,7 @@ const data = {
             },
             {
                 "cateType": 1,
+                "layer": 2,
                 "id": "43B059C3B919370A4E152DBD8B24B312",
                 "name": "猪",
                 "status": 1
@@ -388,6 +389,7 @@ const data = {
                 "degree": 21,
                 "id": "C62EF644CBB83C54623B66D176351CAA",
                 "name": "曾浩",
+                "layer": 1,
                 "oneLevelLinkedNodes": [
                     "77CA4F40CC9002393EC97F3F101CF2CB",
                     "A994DC3F9F55B388BED9631D63D29F22",

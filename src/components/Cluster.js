@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as d3 from 'd3';
 import DATA from '../data/cluster';
 import './cluster.css';
+import { Link } from 'react-router-dom'
 class Cluster extends Component {
   constructor(props) {
     super(props);
@@ -224,6 +225,7 @@ class Cluster extends Component {
     return (
       <div>
         <svg width="960" height="1060"></svg>
+        <Link to="/scrollTest">滚动条</Link>
       </div>
     )
   }

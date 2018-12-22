@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
-import DATA from '../data/network';
+import DATA from './data';
 import './network.css';
-import * as svgTools from '../helper';
+import * as svgTools from './svgTool';
 import axios from 'axios';
 import {observer, inject} from 'mobx-react';
 @inject('networkStore')
 @observer
-export default class Network extends Component {
+export default class SupplyNetwork extends Component {
     // static propTypes = {
     //     networkStore: PropTypes.object, 
     // }
@@ -40,14 +40,10 @@ export default class Network extends Component {
 
     }
     componentDidMount() {
-        console.log(DATA, '?????');
-        console.log(DATA, '-----');
         const currentNetwork = DATA.currentNetwork;
-        this.nodesData = currentNetwork.nodes;
+        this.nodesData = svgTools.initNodeX(currentNetwork.nodes, 500);
+        // this.nodesData = currentNetwork.nodes;
         this.edgesData =  currentNetwork.links;
-        // console.log(d3.map(networkStore.nodesData), Object.keys(networkStore.nodesData));
-        // this.nodesData = networkStore.nodesData;
-        // this.edgesData = networkStore.edgesData;
         this.addZoom();
         this.createGroups();
         this.createSimulation();
@@ -84,14 +80,14 @@ export default class Network extends Component {
         const width = d3.select('svg').attr('width');
         const height = d3.select('svg').attr('height');
         console.log(this.edgesData)
-        this.simulation = d3.forceSimulation(this.nodesData, (data)=> { console.log(data.id, '====='); return data.id;})
-        .force('charge', d3.forceManyBody().strength((data)=>{
-            return data.deleteFlag ? 0 : -300;
-        }))
+        this.simulation = d3.forceSimulation(this.nodesData, (data)=> { return data.id;})
+        // .force('charge', d3.forceManyBody(-30).distanceMin(30))
+        //.force('x', d3.forceX((data) => data.layer * 100 + 500))
+        .force("y", d3.forceY())
+        .force('collision', d3.forceCollide(30).strength(0.4))
         .force('link', d3.forceLink(this.edgesData).id((data) => { return data.id; }).distance((data)=>{
             return data.deleteFlag ? 0 : 150;
-        }))
-        // /*中心吸引力，值设置为width / 2和height / 2，才能保证整个布局位于正中*/
+        }).strength(0))
         .force('center', d3.forceCenter(width / 2, 300))
         .on('tick', this.ticked);
     }
@@ -153,16 +149,32 @@ export default class Network extends Component {
             return '3em';
         })
         .text((data) => {
-            return data.name;
+            return `${data.name}-${data.id}`;
         })
         // 删除
         textExit.remove();
     };
-        
+    getPathD(data) {
+        const {source, target} = data;
+        const {
+            pointA,
+            pointB,
+            pointC,
+            pointD
+        } = svgTools.getArrowPoint(source.x, source.y, target.x, target.y, 15);
+        return `M${source.x}, ${source.y}
+                L${pointC.resX}, ${pointC.resY}
+                L${pointB.resX}, ${pointB.resY}
+                L${pointA.resX}, ${pointA.resY}
+                L${pointD.resX}, ${pointD.resY}
+                L${pointC.resX}, ${pointC.resY}
+                M${pointA.resX}, ${pointA.resY}
+                L${target.x}, ${target.y}`
+    }
     // 线条模板
     lineTempHandle() {
         var lineUpdate = this.linkG
-                        .selectAll('line')
+                        .selectAll('path')
                         .data(this.edgesData, (data) => data.id);
         var lineEnter = lineUpdate.enter();
         var lineExit = lineUpdate.exit();
@@ -173,9 +185,10 @@ export default class Network extends Component {
             return  (data.deleteFlag &&  `links hide`) ||  ((data.source.nodeStatus === -2 || data.target.nodeStatus === -2) &&  `links lineNoActive`) || 'links';
         });
         // 添加
-        lineEnter.append('line')
-        .attr('class', (data) => (data.hide && 'hide') || (data.lineType === 1 && 'links') || 'dashLinks')
-        .attr('marker-end', () => 'url(#cArrow)');
+        lineEnter.append('path')
+        .attr('class', (data) => 'links')
+        .attr('marker-end', () => 'url(#cArrow)')
+        .style('stroke-width', (data) => `${data.capRatio * 6 }px`)
         // 删除
         lineExit.remove();
     }
@@ -365,11 +378,7 @@ export default class Network extends Component {
         .attr('cx', (data)=>{return data.x})
         .attr('cy', (data)=>{return data.y});
         
-        d3.selectAll('line')
-        .attr('x1', (data) => { return data.source.x; })
-        .attr('y1', (data) => { return data.source.y; })
-        .attr('x2', (data) => { return data.target.x; })
-        .attr('y2', (data) => { return data.target.y; });
+        d3.selectAll('#lines path');
         
         d3.selectAll('#texts text')
         .attr('x', (data) => { return data.x; })
@@ -394,12 +403,7 @@ export default class Network extends Component {
     modifySimulation = () => {
         this.simulation
           .alpha(1)
-          .force('charge', d3.forceManyBody().strength((data) => {
-            if (data.nodeStatus === -2) {
-              return -60;
-            }
-            return -300;
-          }))
+          .force('collision', d3.forceCollide(30))
           .force('link', d3.forceLink(this.edgesData).id((data) => { return data.name; }).distance((data) => {
             if (data.target.nodeStatus === -2 || data.source.nodeStatus === -2) {
               return 90;
@@ -435,7 +439,7 @@ export default class Network extends Component {
                 this.updateNetwork();
                this.modifySimulation()
                 data.fx = null;
-                data.fx = null;
+                data.fy = null;
             } else {
             const date = new Date();
             this.clickTime = date;
@@ -446,7 +450,7 @@ export default class Network extends Component {
                 } else {
                     this.addNodes(data);
                     data.fx = null;
-                    data.fx = null;
+                    data.fy = null;
                 }
                 // this.props.forceNetworkStore.focusNode(data);
                 this.clickTime = '';
@@ -454,23 +458,46 @@ export default class Network extends Component {
             }
         } else {
             // console.log(data, '拖拽结束');
-            data.fx = null;
-            data.fx = null;
+            // data.fx = null;
+            // data.fy = null;
         }
         this.isDragging = false;
+    }
+    getPath() {
+        
+        const xO = 450;
+        const yO = 500;
+
+
+        const xF = 600;
+        const yF = 500;
+        const d = this.getPathD({
+            source: {
+                x:xO,
+                y:yO
+            },
+            target: {
+                x:xF,
+                y:xF
+            }
+        })
+        return d;
     }
     render() {
         const config = {
             arc: '扇形分布',
             point: ''
         }
+        const d = this.getPath();
         return (
             <div className="network">
                 <a onClick={()=>{this.setState({layout: 'arc'})}} className={this.state.layout === 'arc' ? 'actLink' : ''}>扇形分布</a>
                 <a onClick={()=>{this.setState({layout: 'none'})}} className={this.state.layout === 'none' ? 'actLink' : ''}>没有初始化</a>
                 <a onClick={()=>{this.setState({layout: 'point'})}} className={this.state.layout === 'point' ? 'actLink' : ''}>位于一点</a>
                 <div>
-                    <svg width="1800" height="1000"></svg>  
+                    <svg width="1000" height="1000">
+                        <path d={d} class="testPath"></path> 
+                    </svg>  
                 </div>
 
             </div>
