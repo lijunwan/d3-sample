@@ -44,14 +44,14 @@ export function getPointXYonLine(lineK, lineB, pointX, pointY, len, type) {
   // constantA，constantB，constantC代表了一元二次方程化为形如ax^2+bx+c=0的常数a、b、c;
   const constantA = lineK*lineK + 1;
   const constantB = 2*lineK*(lineB - pointY)-2 * pointX;
-  const constantC = (lineB - pointY) * (lineB - pointY)+ pointX - len*len
+  const constantC = (lineB - pointY) * (lineB - pointY)+ pointX*pointX - len*len
   // 再根据一元二次方程求解公式求解resultX:
   const resX1 = (-constantB + Math.sqrt(constantB * constantB - 4 * constantA * constantC))/(2*constantA);
   const resX2 = (-constantB - Math.sqrt(constantB * constantB - 4 * constantA * constantC))/(2*constantA);
   // 最后根据resX求出resY
   const resY1 = lineK * resX1 + lineB;
   const resY2 = lineK * resX2 + lineB;
-  console.log('===', type, lineK,  constantB, constantA, constantC)
+  console.log( constantB, constantB * constantB,  4 * constantA * constantC, '=====???', type);
   return { resX1, resY1, resX2, resY2};
 }
 // 多个结果去点S和点之间的点
@@ -63,26 +63,80 @@ export function getLineInnerPoint(lineK, lineB, pointX, pointY, len , maxX, minX
   return {resX: point.resX2, resY: point.resY2};
 
 }
+function getMiddlePoint(point, min, max, type="horizontal") {
+  if (type === 'horizontal') {
+    if (point.resX1 > min && point.resX1 < max) {
+      return {resX: point.resX1, resY: point.resY1};
+    }
+    return {resX: point.resX2, resY: point.resY2};
+  } else {
+    if (point.resY1 > min && point.resY1 < max) {
+      return {resX: point.resX1, resY: point.resY1};
+    }
+    return {resX: point.resX2, resY: point.resY2};
+  }
+}
+function getPointOnHorizontalLine(pointX, pointY, len) {
+  console.log(pointX, pointY, len, '======')
+   return { 
+      resX1: pointX +len, 
+      resY1: pointY,
+      resX2: pointX - len,
+      resY2: pointY
+    };
+}
+function getPointOnVerticalLine(pointX, pointY, len) {
+  return { 
+    resX1: pointX, 
+    resY1: pointY+len,
+    resX2: pointX,
+    resY2: pointY-len
+  };
+}
 export function getArrowPoint(xS, yS, xT, yT, r) {
-   // 直线(连线)斜率lineK,常数lineB
-  const lineK = (xT - xS) / (yT - yS);
-  const lineB = yS - lineK * xS;
-  // 箭头角度的一半
-  const angle = Math.PI / 3;
-  // 箭头的腰长
-  const len = 15;
-  // 箭头的高
-  const lenH = Math.abs(Math.cos(angle) * len);
+   // 箭头角度的一半
+   const angle = Math.PI / 3;
+   // 箭头的腰长
+   const len = 15;
+   // 箭头的高
+   const lenH = Math.abs(Math.cos(angle / 4) * len);
 
   const maxX = Math.max(xS, xT);
   const minX = Math.min(xS, xT);
+
+  const maxY = Math.max(yS, yT);
+  const minY = Math.min(yS, yT);
+
+   // 直线(连线)斜率lineK,常数lineB
+  if (Math.abs(yT - yS) <  Math.pow(10,-5)) {
+    console.log('')
+    const doublePointA = getPointOnHorizontalLine(xT, yT, r);
+    const doublePointC = getPointOnHorizontalLine(xT, yT, r + lenH);
+    const pointA = getMiddlePoint(doublePointA, minX, maxX);
+    const pointC = getMiddlePoint(doublePointC, minX, maxX);
+    const pointBandD = getPointOnVerticalLine(pointC.resX, pointC.resY, len / 2);
+    const pointB = {resX: pointBandD.resX1, resY:  pointBandD.resY1};
+    const pointD = {resX: pointBandD.resX2, resY:  pointBandD.resY2};
+    return  {pointA, pointB, pointC, pointD};
+  } else if (Math.abs(xT - xS) <  Math.pow(10,-5)) {
+    const doublePointA = getPointOnVerticalLine(xT, yT, r);
+    const doublePointC = getPointOnVerticalLine(xT, yT, r+lenH);
+    const pointA = getMiddlePoint(doublePointA, minY, maxY, 'vertical');
+    const pointC = getMiddlePoint(doublePointC, minY, maxY, 'vertical');
+    const pointBandD = getPointOnHorizontalLine(pointC.resX, pointC.resY, len / 2);
+    const pointB = {resX: pointBandD.resX1, resY:  pointBandD.resY1};
+    const pointD = {resX: pointBandD.resX2, resY:  pointBandD.resY2};
+    return  {pointA, pointB, pointC, pointD};
+  }
+  const lineK = (yT - yS) / (xT - xS);
+  const lineB = yS - lineK * xS;
+
   const pointA = getLineInnerPoint(lineK, lineB, xT, yT, r, maxX, minX, 'A');
-  const pointC = getLineInnerPoint(lineK, lineB, xT, yT, lenH, maxX, minX, 'C');
+  const pointC = getLineInnerPoint(lineK, lineB, xT, yT, lenH + r, maxX, minX, 'C');
 
   // 垂直直线(箭头的底边所在的直线)斜率lineK,常数lineB
   const lineVK = -1/lineK;
   const lineVB = pointC.resY - lineVK * pointC.resX;
-  console.log(lineVK,lineK, '===???');
   const pointBandD = getPointXYonLine(lineVK, lineVB, pointC.resX, pointC.resY, len/2, true);
   const pointB = {resX: pointBandD.resX1, resY:  pointBandD.resY1};
   const pointD = {resX: pointBandD.resX2, resY:  pointBandD.resY2};

@@ -21,7 +21,8 @@ class Cluster extends Component {
     this.tree = d3.tree()
     // 设置或获取布局的尺寸。节点的x属性是弧度，y是半径。
     // 此处将以400为半径的一个圆里画出一颗树。需要注意的是画布的高度宽度的设置要大于这个园的直径。
-    .size([2 * Math.PI, 400])
+    // .size([Math.PI*2/3, 400])
+    .nodeSize([10, 960 / 4])
     // 设置同一个值除了设置０其他值都不会影响布局
     // 布局只和两个值的比例有关；
     // 这个函数只用于同一层级,相邻叶子节点
@@ -29,7 +30,8 @@ class Cluster extends Component {
     // 第二层的d2s = 2ds　d2d = 2dd 第三层　d３s = ３ds　d3d = 3dd
     // 所以除以a.depth可以修正间距，让每一层的间距都相等。
     .separation(function(a, b){
-      return  (a.parent === b.parent ? 1 : 2) / a.depth;
+      console.log(a, b);
+      return  (a.parent === b.parent ? 1 : 2);
     });
     this.draw();
   }
@@ -163,9 +165,9 @@ class Cluster extends Component {
     nodeEn
       .attr('transform', (d)=>{ // 节点从父节点开始滑出
         if (d.parent) {
-          return `translate(${this.radialPoint(d.parent.x, d.parent.y)})`
+          return `translate(${d.x}, ${d.y})`
         }
-        return `translate(${this.radialPoint(d.x, d.y)})`
+        return `translate(${d.x}, ${d.y})`
       })
       .attr('class', 'node node-hide')
       .transition()
@@ -173,10 +175,10 @@ class Cluster extends Component {
       .duration(300)
       .attr('class', function(d){return `node node-show ${d.children ? 'node-internal' : 'node-leaf'}`})
       .attr('transform', (d)=>{
-        return `translate(${this.radialPoint(d.x, d.y)})`}
+        return `translate(${d.x}, ${d.y})`}
       )
     nodeEn.append('circle')
-    .attr('r', 5)
+    .attr('r', 15)
     .on('click', this.clickNode);
     nodeEn.append('text')
     .attr('dy', '0.31em')

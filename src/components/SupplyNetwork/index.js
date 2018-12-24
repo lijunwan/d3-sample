@@ -5,6 +5,7 @@ import './network.css';
 import * as svgTools from './svgTool';
 import axios from 'axios';
 import {observer, inject} from 'mobx-react';
+import { Socket } from 'dgram';
 @inject('networkStore')
 @observer
 export default class SupplyNetwork extends Component {
@@ -161,17 +162,17 @@ export default class SupplyNetwork extends Component {
             pointB,
             pointC,
             pointD
-        } = svgTools.getArrowPoint(source.x, source.y, target.x, target.y, 15);
+        } = svgTools.getArrowPoint(source.x, source.y, target.x, target.y, 17.5);
         return `M${source.x}, ${source.y}
                 L${pointC.resX}, ${pointC.resY}
                 L${pointB.resX}, ${pointB.resY}
-                L${pointA.resX}, ${pointA.resY}`
-                // L${pointD.resX}, ${pointD.resY}
-                // L${pointC.resX}, ${pointC.resY}
+                L${pointA.resX}, ${pointA.resY}
+                L${pointD.resX}, ${pointD.resY}
+                L${pointC.resX}, ${pointC.resY}`
                 // M${pointA.resX}, ${pointA.resY}
                 // L${target.x}, ${target.y}`
     }
-    // 线条模板
+    // 线条
     lineTempHandle() {
         var lineUpdate = this.linkG
                         .selectAll('path')
@@ -378,7 +379,8 @@ export default class SupplyNetwork extends Component {
         .attr('cx', (data)=>{return data.x})
         .attr('cy', (data)=>{return data.y});
         
-        d3.selectAll('#lines path');
+        d3.selectAll('#lines path')
+        .attr('d', data => this.getPathD(data));
         
         d3.selectAll('#texts text')
         .attr('x', (data) => { return data.x; })
@@ -464,13 +466,14 @@ export default class SupplyNetwork extends Component {
         this.isDragging = false;
     }
     getPath() {
-        
-        const xO = 450;
-        const yO = 450;
+        // 650, 293.5912721764596
+        // 800, 293.5912764757896
+        const xO = 650;
+        const yO = 293.5912721764596;
 
 
-        const xF = 550;
-        const yF = 550;
+        const xF = 800;
+        const yF = 293.5912764757896;
         const d = this.getPathD({
             source: {
                 x:xO,
